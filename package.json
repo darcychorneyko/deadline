@@ -6,7 +6,11 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "docker-clean": "docker stop deadline-app && docker rm deadline-app && docker rmi deadline-app",
+    "docker-build": "docker build -t deadline-app .",
+    "docker-run": "docker run -d -p 8001:80 --name deadline-app deadline-app",
+    "docker-deploy": "npm run docker-clean && npm run docker-build && npm run docker-run"
   },
   "private": true,
   "dependencies": {
