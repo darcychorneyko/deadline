@@ -1,0 +1,61 @@
+<div class="deadline-list-container">
+  <div class="header">
+    <h2>Deadlines</h2>
+    <div class="actions">
+      <button mat-raised-button color="primary" (click)="openDeadlineForm()">
+        <mat-icon>add</mat-icon>
+        <span>Add</span>
+      </button>
+      <button mat-raised-button color="accent" (click)="openImportDialog()">
+        <mat-icon>upload</mat-icon>
+        <span>Import</span>
+      </button>
+      <button mat-raised-button color="accent" (click)="exportDeadlines()">
+        <mat-icon>download</mat-icon>
+        <span>Export</span>
+      </button>
+    </div>
+  </div>
+  
+  <ng-container *ngIf="deadlines$ | async as deadlines">
+    <div class="deadline-grid" [@listAnimation]="deadlines.length">
+      <mat-card *ngFor="let deadline of deadlines" class="deadline-card" [@cardAnimation]>
+        <mat-card-header>
+          <mat-card-title>{{ deadline.title }}</mat-card-title>
+          <mat-card-subtitle>
+            Due in {{ deadline.daysRemaining }} days
+            ({{ deadline.dueDate | date:'mediumDate' }})
+          </mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <p *ngIf="deadline.description">{{ deadline.description }}</p>
+          
+          <mat-chip-set>
+            <mat-chip [class]="getPriorityClass(deadline.priority)" [@chipAnimation]>
+              {{ deadline.priority }}
+            </mat-chip>
+            <mat-chip [class]="getDaysRemainingClass(deadline.daysRemaining)" [@chipAnimation]>
+              {{ getDaysRemainingText(deadline.daysRemaining) }}
+            </mat-chip>
+          </mat-chip-set>
+        </mat-card-content>
+        
+        <mat-card-actions align="end">
+          <button mat-button color="primary" (click)="onEdit(deadline)">
+            <mat-icon>edit</mat-icon>
+            <span>Edit</span>
+          </button>
+          <button mat-button color="warn" (click)="onDelete(deadline)">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </ng-container>
+  
+  <div *ngIf="(deadlines$ | async)?.length === 0" class="no-deadlines" [@cardAnimation]>
+    <p>No deadlines found. Add your first deadline to get started!</p>
+  </div>
+</div> 
