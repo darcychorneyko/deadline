@@ -10,7 +10,8 @@
     "docker-clean": "docker stop deadline-app && docker rm deadline-app && docker rmi deadline-app",
     "docker-build": "docker build -t deadline-app .",
     "docker-run": "docker run -d -p 8001:80 -p 8443:8443 --name deadline-app deadline-app",
-    "docker-deploy": "npm run docker-clean && npm run docker-build && npm run docker-run"
+    "docker-deploy": "npm run docker-clean && npm run docker-build && npm run docker-run",
+    "ngrok": "grok http --url=able-correct-ladybird.ngrok-free.app localhost:4200"
   },
   "private": true,
   "dependencies": {
